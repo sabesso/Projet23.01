@@ -4,12 +4,15 @@
     require_once('model/database.php');
     $success = false;
 ?>
-<pre>
+<!-- <pre>
     <?= print_r($_GET); ?>
 </pre>
 <pre>
     <?= print_r($_SESSION); ?>
-</pre>
+</pre> -->
+<!-- <pre>
+    <?= print_r($datas); ?>
+</pre> -->
 <!-- ------------------------ The contents of the page ------------------------- -->
 <div class="container">
     <div class="mt-5">
@@ -32,6 +35,9 @@
     <?php if(!empty($add)): ?>
         <div class="alert alert-success"><?= $add?></div>
     <?php endif ?>
+    <?php if(isset($_SESSION['errors'])): ?>
+        <div class="alert alert-danger"><?= $_SESSION['errors'] ?></div>
+    <?php endif ?>
     <div class="row">
         <div class="col-md-6 offset-md-3">
 <!-- --------------------------- Show the comments ----------------------------- -->
@@ -49,13 +55,12 @@
                     </form>
                 <!-- else show the comments -->
                 <?php else: ?>
-                    <?php if(!empty($update)): ?>
-                        <div class="alert alert-success"><?= $update?></div>
-                    <?php endif ?>
+                    
                     <div class="card border-secondary mt-5">
                         <div class="card-header">
                             <strong><?= htmlspecialchars($data['Username'])?></strong> le <?= $data['InscriptionDate'] ?>
                         </div>
+                        <img src="<?= ($data['ImageSrc']) ?>" width="100%" height="40%" alt="photo">
                         <div class="card-body card-text">
                             <?= nl2br(htmlspecialchars($data['Comment'])) ?>
                         </div>
@@ -74,14 +79,14 @@
                         <h5>Veuillez se connecter pour faire un commentaire</h5>
                     <?php else : ?>
                         <h6><strong><?= $_SESSION['userInfo']['Username'] ?></strong></h6>
-                    <div class="form-group">
-                        <label class="mt-3" for="comment">Votre Commentaire</label>
-                        <textarea class="form-control" name="comment" rows="7" placeholder="Entrer votre commentaire"></textarea> 
-                    </div> 
-                    <input class="mb-3" type="file" name="img">
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary mb-4">Envoyer</button>
-                    </div>
+                        <div class="form-group">
+                            <label class="mt-3" for="comment">Votre Commentaire</label>
+                            <textarea class="form-control" name="comment" rows="7" placeholder="Entrer votre commentaire"></textarea> 
+                        </div> 
+                        <input class="mb-3" type="file" name="img">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary mb-4">Envoyer</button>
+                        </div>
                     <?php endif ?>
                 </form>
             <?php endif ?>

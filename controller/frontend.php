@@ -29,11 +29,9 @@
         require('view/frontend/inscription.php');
     }
     function accountPage() {
-        // header("Location: php_project/?action=account.php");
         require('view/frontend/account.php');
     }
     function jeuPage() {
-        // header("Location: php_project/?action=account.php");
         require('view/frontend/jeu.php');
     }
     function forgetPage() {
@@ -49,17 +47,16 @@
         $_SESSION['img'] = $_FILES['img'];
         $img = $_FILES['img'];
         $ext = strtolower(substr($img['name'], -3));   
-        $allowExt = array('jpg', 'gif', 'png'); 
+        $allowExt = array('jpg', 'gif', 'png', 'jpeg'); 
         if (in_array($ext, $allowExt)) {
+            $folderImg = "images/userImages/" . $img['name'];
             move_uploaded_file($img['tmp_name'], "images/userImages/" . $img['name']);
+            addData($id, $comment, $folderImg);
         } else {
-            # code...
-        }
+            $_SESSION['errors'] = 'Votre fichier nest pas une image';
+        }        
 
-     //  ----------------------
-        addData($id, $comment);
         echo "<script>window.location.href='?action=$pagename.php';</script>";
-        // header("Location: php_project/?action=cars.php");
     }
 
     //  Function for updating an existing comment
@@ -73,13 +70,14 @@
         }
     }
 
-     //  Function for deleting an existing comment
-     function deleteComment(int $commentId, string $pagename) {
+    //  Function for deleting an existing comment
+    function deleteComment(int $commentId, string $pagename) {
         $id = htmlentities($commentId);
         deleteData($id);
+
         echo "<script>window.location.href='?action=$pagename.php';</script>";
     }
-
+    //  Function for confirm register of the user that have been sended the form of the inscription
     function confirmRegister() {
         $username = htmlentities($_POST['logupusername']);
         $email = htmlentities($_POST['logupemail']);
@@ -128,6 +126,7 @@
         $_SESSION['logup'] = 'logup';
     }
     
+    //  Confirm the login
     function confirmLogin() {
         $username = htmlentities($_POST['loginusername']);
         $password = htmlentities($_POST['loginpassword']);
@@ -207,14 +206,52 @@
         }
     }
 
-    function resetEmail() {
+    function verifyResetEmail() {
         $email = htmlentities($_POST['email']);
-        $user = takeUserEmail($email);
-        if(!empty($user)) {
-            resetPassword($user['id'],$email);
+
+        $verifyEmail = verifyUserEmail($email);
+        if(!empty($verifyEmail)) {
+            sendVerificationEmail($verifyEmail['id'],$verifyEmail['Email']);
+            $_SESSION['success'] = 'un mail de reinintialisation vous a bien été renvoyé ';
+        } else {
+            $_SESSION['danger'] = 'aucun compte ne correspond a cette adresse ';
         }
+        echo "<script>window.location.href='?action=forget.php';</script>";
     }
 
+    function resetUserPassword() {
+        $id = $_SESSION['id'];
+        $token = $_SESSION['token'];
+        $pass1 = htmlentities($_POST['password1']);
+        $pass2 = htmlentities($_POST['password2']);
+
+        $confirmstatus = confirmUserStatus($id);
+        if (!empty($confirmstatus) && ($token == $confirmstatus['reset_token'])) {
+            if ($pass1 == $pass2) {
+                updateUserPassword($id, $pass1);
+                $_SESSION['success']='votre mot de passe a bien été modifié';
+            }
+        } else {
+            $_SESSION['danger'] = 'not working ';
+        }
+    }
+    // function userReset() {
+    //     $id = htmlentities($_GET['id']);
+    //     $token = htmlentities($_GET['token']);
+        
+
+    //     $confirmstatus = confirmUserReset($id);
+    //     if (!empty($confirmstatus) && $token == $confirmstatus['reset_token']) {
+    //         $pass1 = htmlentities($_POST['password1']);
+    //         $pass2 = htmlentities($_POST['password2']);
+    //         if ($pass1 == $pass2) {
+    //             updateUserReset($id);
+    //             $_SESSION['success']='votre mot de passe a bien été modifié';
+    //         }
+    //     } else {
+    //         die ('pas ok');
+    //     }
+    // }
 
 
 

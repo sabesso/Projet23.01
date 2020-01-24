@@ -13,7 +13,7 @@
    // require('controller/functions.php');
 
    if (isset($_GET['action'])) {
-      unset($_SESSION['exten'],$_SESSION['errors'], $_SESSION['logup'], $_SESSION['confirm'], $_SESSION['loginerror'], $_SESSION['updateconfirm'], $_SESSION['updateerrors']);
+      unset($_SESSION['success'], $_SESSION['id'], $_SESSION['token'], $_SESSION['errors'], $_SESSION['logup'], $_SESSION['confirm'], $_SESSION['loginerror'], $_SESSION['updateconfirm'], $_SESSION['updateerrors']);
 // *------------------------* index.php *------------------------*
       if ($_GET['action'] == 'index.php') {
          if (isset($_POST['login'])) {
@@ -128,14 +128,19 @@
          }
          jeuPage();
       }
-// *------------------------* jeu.php *-------------------------*
+// *------------------------* forget.php *----------------------*
       elseif ($_GET['action'] == 'forget.php') {
          if (!empty($_POST['email'])) {
-            resetEmail();
+            verifyResetEmail();
+            unset($_SESSION['danger']);
+         } 
+         if (isset($_POST['password1']) && isset($_POST['password2'])) {
+            resetUserPassword();
          }
          forgetPage();
       }
-   } else {
+   } 
+   else {
       unset($_SESSION['errors'], $_SESSION['logup']);
       mainPage();
    }

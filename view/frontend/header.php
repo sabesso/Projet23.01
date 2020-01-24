@@ -46,8 +46,7 @@
                     <form class="form-inline mt-2 mt-md-0" action="?action=<?= $_GET['action'] ?>" method="POST">
 <!-- *----------------* if there are errors of the login *--------------* -->
                         <?php if (isset($_SESSION['loginerror'])) : ?>
-                            <p class="mr-1 my-auto" style="background-color: lightgray"> <?= $_SESSION['loginerror'] ?><a href="?action=forget.php">J'ai oublié mon mot de pass</a> </p>
-                            
+                            <p class="mr-1 my-auto" style="background-color: lightgray"> <?= $_SESSION['loginerror'] ?><a href="?action=forget.php">J'ai oublié mon mot de pass</a></p>
                         <?php endif ?>
                         <input class="form-control-sm mr-sm-2" type="text" name="loginusername" placeholder="Pseudo" value="<?php if(!empty($_POST['loginusername'])) echo htmlentities($_POST['loginusername']) ?>">
                         <input class="form-control-sm mr-sm-2" type="password" name="loginpassword" placeholder="Mot de passe" value="<?php if(!empty($_POST['loginpassword'])) echo htmlentities($_POST['loginpassword']) ?>">
