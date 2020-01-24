@@ -1,0 +1,24 @@
+
+.body1{
+   
+    background-image: url("../../images/img-glob.jpg");
+    /*background-color: black;*/
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.logo img{
+    width: 20%;
+}
+.container1{
+    background-color: white;
+}
+.bd-img{
+    border: 10px solid;
+    border-color: #ff9700;
+}
+.bd-simg{
+    border: 2px solid;
+    border-color: #ff9700;
+}
+    
