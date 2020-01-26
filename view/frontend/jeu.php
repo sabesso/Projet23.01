@@ -1,10 +1,6 @@
 <?php
-    $title = "Jeu de Bomberman";
+    $title = "Bomberman";
     require('header.php');
+    require('bomberman/index.html')
 ?>
 
-<div class="container">
-    <div>
-        Jeu Test !
-    </div>
-</div>

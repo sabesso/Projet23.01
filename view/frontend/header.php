@@ -24,7 +24,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     </head>
 
-    <body id="position">
+    <body class="position-relative">
         <!-- Navigation -->
         <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
             <a class="navbar-brand" href="#">Navbar</a>
@@ -45,9 +45,9 @@
                 <?php if(!isset($_SESSION['userInfo'])) : ?>
                     <form class="form-inline mt-2 mt-md-0" action="?action=<?= $_GET['action'] ?>" method="POST">
 <!-- *----------------* if there are errors of the login *--------------* -->
-                        <?php if (isset($_SESSION['loginerror'])) : ?>
+                        <!-- <?php if (isset($_SESSION['loginerror'])) : ?>
                             <p class="mr-1 my-auto" style="background-color: lightgray"> <?= $_SESSION['loginerror'] ?><a href="?action=forget.php">J'ai oublié mon mot de pass</a></p>
-                        <?php endif ?>
+                        <?php endif ?> -->
                         <input class="form-control-sm mr-sm-2" type="text" name="loginusername" placeholder="Pseudo" value="<?php if(!empty($_POST['loginusername'])) echo htmlentities($_POST['loginusername']) ?>">
                         <input class="form-control-sm mr-sm-2" type="password" name="loginpassword" placeholder="Mot de passe" value="<?php if(!empty($_POST['loginpassword'])) echo htmlentities($_POST['loginpassword']) ?>">
                         <!-- <a href="?action=<?= $_GET['action'] ?>&login" class="btn btn-primary btn-sm mr-2">Se connecter</a> -->
@@ -68,6 +68,12 @@
          
         </nav>
 
+        <!-- *----------------* if there are errors of the login *--------------* -->
+        <!-- <div class="float-right"> -->
+            <?php if (isset($_SESSION['loginerror'])) : ?>
+                <div class="position-absolute bg-dark text-warning p-2"> <?= $_SESSION['loginerror'] ?><a href="?action=forget.php"> J'ai oublié mon mot de passe </a></div>
+            <?php endif ?>
+        <!-- </div> -->
         
 
 

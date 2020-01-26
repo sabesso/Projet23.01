@@ -10,11 +10,11 @@
 <pre>
     <?= var_dump($_POST); ?>
 </pre> -->
-<pre>
+<!-- <pre>
     <?= print_r($_SESSION); ?>
-</pre>
+</pre> -->
 
-<body class="body1">
+<body class="body1" style="background-image: url(images/img-glob.jpg); background-repeat:no-repeat; background-size:cover">
 
     <div class="container pt-5 w-70 container1">
         <div class='logo'>

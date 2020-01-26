@@ -1,0 +1,101 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="view/frontend/Bomberman/style1.css" type="text/css" >
+    <title>Bomberman</title>
+</head>
+
+<body>
+    <article class="clock">
+        <div class="seconds-container">
+            <div class="seconds"></div>
+        </div>
+    </article>
+
+    <div id="Game"> 
+        <div class="scorePlayer">
+           <img src="view/frontend/Bomberman/img2/p1Score.png" alt="image">
+                <div id="textScore">
+                    <text id="scorep1">
+                    </text>
+                </div>
+        </div>    
+            
+        <div id="BoiteFromage">
+            <canvas id="myCanvas">
+                
+                <img id="bomber1" src="view/frontend/Bomberman/img2/zeldamove.png">
+                <img id="murAll" src="view/frontend/Bomberman/img2/box.png">
+                <img id="bomber2" src="view/frontend/Bomberman/img2/bomberX.png">
+                <img id="bush1" src="view/frontend/Bomberman/img2/brokenwall.png">
+                <img id="bush2" src="view/frontend/Bomberman/img2/bush2.png">
+                <img id="bush3" src="view/frontend/Bomberman/img2/bush3.png">
+                <img id="bush4" src="view/frontend/Bomberman/img2/bush4.png">
+                <img id="bush5" src="view/frontend/Bomberman/img2/bush5.png">
+                <img id="bush6" src="view/frontend/Bomberman/img2/bush6.png">
+                <img id="bush7" src="view/frontend/Bomberman/img2/bush7.png">
+                <img id="bombz1" src="view/frontend/Bomberman/img2/bombpetite.png">
+                <img id="bombz2" src="view/frontend/Bomberman/img2/bombmoyenne.png">
+                <img id="bombz3" src="view/frontend/Bomberman/img2/bomb.png">
+                <img id="grass" src="view/frontend/Bomberman/img2/grasstile.png">
+                <img id="break1" src="view/frontend/Bomberman/img2/break1.png">
+                <img id="break2" src="view/frontend/Bomberman/img2/break2.png">
+                <img id="break3" src="view/frontend/Bomberman/img2/break3.png">
+                <img id="break4" src="view/frontend/Bomberman/img2/break4.png">
+                <img id="break5" src="view/frontend/Bomberman/img2/break5.png">
+                <img id="break6" src="view/frontend/Bomberman/img2/break6.png">
+                <img id="boom1" src="view/frontend/Bomberman/img2/boom.png">
+                <img id="boom2" src="view/frontend/Bomberman/img2/boom2.png">
+                <img id="boom3" src="view/frontend/Bomberman/img2/boom3.png">
+                <img id="boom4" src="view/frontend/Bomberman/img2/boom4.png">
+                <img id="boom5" src="view/frontend/Bomberman/img2/boom5.png">
+                <img id="boom6" src="view/frontend/Bomberman/img2/boom6.png">
+                <img id="bonus1" src="view/frontend/Bomberman/img2/bonus1.png">
+                <img id="bonus2" src="view/frontend/Bomberman/img2/bonus2.png">
+                <img id="bonus3" src="view/frontend/Bomberman/img2/bonus3.png">
+                <img id="bonus4" src="view/frontend/Bomberman/img2/heart.png">
+                <img id="bonus5" src="view/frontend/Bomberman/img2/bonusSpeed.png">
+                <img id="zelda1" src="view/frontend/Bomberman/img2/playerOne.png">
+                <img id="zelda2" src="view/frontend/Bomberman/img2/playerTwo.png">
+                <img id="newgrass" src="view/frontend/Bomberman/img2/newgrass.png">
+                <img id="malus" src="view/frontend/Bomberman/img2/skull.png">
+                <img id="hole" src="view/frontend/Bomberman/img2/hole.png"> 
+                <img id="star1" src="view/frontend/Bomberman/img2/playerOneCoeur.png"> 
+                <img id="star2" src="view/frontend/Bomberman/img2/playerOneCoeur2.png">
+                <img id="player2winall" src="view/frontend/Bomberman/img2/player2winall.png">
+                <img id="player1winall" src="view/frontend/Bomberman/img2/player1winall.png">
+                <img id="noWinner" src="view/frontend/Bomberman/img2/NoWinner.png">
+              
+                
+                <audio preload="auto" id="grassAudio" ><source src="view/frontend/Bomberman/sounds/grass_destroyed.wav" type="audio/wav"></audio> 
+                <audio preload="auto" id="bonusPicked" ><source src="view/frontend/Bomberman/sounds/map.wav" type="audio/wav"></audio>   
+                <audio preload="auto" id="gameOver" ><source src="view/frontend/Bomberman/sounds/item_get_1.wav" type="audio/wav"></audio>  
+                <audio preload="auto" id="Malus" ><source src="view/frontend/Bomberman/sounds/shock.wav" type="audio/wav"></audio>  
+                <audio preload="auto" id="gameMusic" ><source src="view/frontend/Bomberman/sounds/Game_Music.mp3" type="audio/mp3"></audio> 
+                <audio preload="auto" id="star" ><source src="view/frontend/Bomberman/sounds/star.mp3" type="audio/mp3"></audio>
+                <audio preload="auto" id="gameTie" ><source src="view/frontend/Bomberman/sounds/link_dies.wav" type="audio/wav"></audio> 
+                <audio preload="auto" id="Walk" ><source src="view/frontend/Bomberman/sounds/walk_grass.wav" type="audio/wav"></audio>
+                <audio preload="auto" id="bombSound" ><source src="view/frontend/Bomberman/sounds/bomb_explode.wav" type="audio/wav"></audio>
+                <audio preload="auto" id="SD" ><source src="view/frontend/Bomberman/sounds/SD.mp3" type="audio/mp3"></audio>
+            
+            </canvas>
+        </div>
+
+        <div class="scorePlayer">
+            <img src="view/frontend/Bomberman/img2/p2Score.png">
+            <div>
+                <text id="scorep2">
+                </text>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="delete"><audio preload="auto" id="menuMusic" controls><source src="view/frontend/Bomberman/sounds/Newmenumusic.mp3" type="audio/mp3"></audio> </div>
+    
+
+    
+    <script src="view/frontend/Bomberman/script2.js"></script>

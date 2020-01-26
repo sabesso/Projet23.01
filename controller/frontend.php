@@ -4,6 +4,9 @@
     
 
     function mainPage() {
+        if (!isset($_GET['action'])) {
+            echo "<script>window.location.href='?action=index.php';</script>";
+        }
         if ($_GET['action'] == 'account.php' && !isset($_SESSION['loginerror'])) {
             echo "<script>window.location.href='?action=index.php';</script>";
         }
