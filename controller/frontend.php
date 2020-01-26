@@ -4,7 +4,10 @@
     
 
     function mainPage() {
-        if ($_GET['action'] == 'account.php') {
+        if ($_GET['action'] == 'account.php' && !isset($_SESSION['loginerror'])) {
+            echo "<script>window.location.href='?action=index.php';</script>";
+        }
+        if ($_GET['action'] == 'forget.php' && !isset($_SESSION['loginerror'])) {
             echo "<script>window.location.href='?action=index.php';</script>";
         }
         require('view/frontend/main.php');
@@ -230,10 +233,13 @@
             if ($pass1 == $pass2) {
                 updateUserPassword($id, $pass1);
                 $_SESSION['success']='votre mot de passe a bien été modifié';
+            } else {
+                $_SESSION['danger'] = "Entrez un mot de passe valide";
             }
         } else {
             $_SESSION['danger'] = 'not working ';
         }
+        echo "<script>window.location.href='?action=forget.php';</script>";
     }
     // function userReset() {
     //     $id = htmlentities($_GET['id']);

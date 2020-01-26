@@ -8,12 +8,16 @@
    $_SESSION['confirm'] ->
    $_SESSION['updateerrors'] -
    $_SESSION['updateconfirm'] -
+   $_SESSION['success'], $_SESSION['danger'], 
 */
    require('controller/frontend.php');
    // require('controller/functions.php');
 
    if (isset($_GET['action'])) {
-      unset($_SESSION['success'], $_SESSION['id'], $_SESSION['token'], $_SESSION['errors'], $_SESSION['logup'], $_SESSION['confirm'], $_SESSION['loginerror'], $_SESSION['updateconfirm'], $_SESSION['updateerrors']);
+      if ($_GET['action'] != 'forget.php') {
+         unset($_SESSION['success'], $_SESSION['danger'], $_SESSION['id'], $_SESSION['token']);
+      }
+      unset($_SESSION['errors'], $_SESSION['logup'], $_SESSION['confirm'], $_SESSION['loginerror'], $_SESSION['updateconfirm'], $_SESSION['updateerrors']);
 // *------------------------* index.php *------------------------*
       if ($_GET['action'] == 'index.php') {
          if (isset($_POST['login'])) {
@@ -129,13 +133,16 @@
          jeuPage();
       }
 // *------------------------* forget.php *----------------------*
-      elseif ($_GET['action'] == 'forget.php') {
-         if (!empty($_POST['email'])) {
+      elseif ($_GET['action'] == 'forget.php') { 
+         if (isset($_POST['resetmail'])) {
             verifyResetEmail();
-            unset($_SESSION['danger']);
-         } 
-         if (isset($_POST['password1']) && isset($_POST['password2'])) {
+         } elseif (isset($_GET['id']) && isset($_GET['token'])) {
+            unset($_SESSION['success'], $_SESSION['danger']);
+         } elseif (!empty($_POST['password1']) && !empty($_POST['password2'])) {
             resetUserPassword();
+         } elseif (isset($_POST['login'])) {
+            confirmLogin();
+            mainPage();
          }
          forgetPage();
       }
