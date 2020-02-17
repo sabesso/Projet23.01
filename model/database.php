@@ -23,16 +23,59 @@ function updateData(string $id, string $comment) {
     // return 'Votre commentaire a été bien mise à jour !';
 }
 
-//  Function for adds data to the table Comments
-function addData(int $pageId, string $comment, string $img) {
+//  Function for update the number of the like
+function updateLikeNumber(string $id, string $like, string $likeSelected) {
     $db = dbConnect();
 
-    $req = $db->prepare("INSERT INTO Comments(page_id, Username, Comment, ImageSrc) VALUES(?, ?, ?, ?)");
+    $req = $db->prepare("UPDATE Comments SET LikeNumber = ?, likeSelected = ? WHERE Id = ?");
+    $req->bindValue(1, $like);
+    $req->bindValue(2, $likeSelected);
+    $req->bindValue(3, $id);
+    $req->execute();
+    
+    // return 'Votre commentaire a été bien mise à jour !';
+}
+
+//  Function for update the number of the like
+function updateHeartNumber(string $id, string $heart, string $heartSelected) {
+    $db = dbConnect();
+
+    $req = $db->prepare("UPDATE Comments SET HeartNumber = ?, heartSelected = ? WHERE Id = ?");
+    $req->bindValue(1, $heart);
+    $req->bindValue(2, $heartSelected);
+    $req->bindValue(3, $id);
+    $req->execute();
+    
+    // return 'Votre commentaire a été bien mise à jour !';
+}
+
+//  Function to register the sub comment to the database
+function dbAddSubComment(string $id, int $pageId, string $subcomment) {
+    $db = dbConnect();
+
+    $req = $db->prepare("INSERT INTO subComments(page_id, comment_id, username, sub_comment) VALUES(?, ?, ?, ?)");
+
+    $req->bindValue(1, $pageId);
+    $req->bindValue(2, $id);
+    $req->bindValue(3, $_SESSION['userInfo']['Username']);
+    $req->bindValue(4, $subcomment);
+    $req->execute();
+}
+
+//  Function for adds data to the table Comments
+function addData(string $pageId, string $comment, string $img) {
+    $db = dbConnect();
+
+    $req = $db->prepare("INSERT INTO Comments(page_id, Username, Comment, ImageSrc, LikeNumber, HeartNumber, likeSelected, heartSelected) VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
 
     $req->bindValue(1, $pageId);
     $req->bindValue(2, $_SESSION['userInfo']['Username']);
     $req->bindValue(3, $comment);
     $req->bindValue(4, $img);
+    $req->bindValue(5, '0');
+    $req->bindValue(6, '0');
+    $req->bindValue(7, '0');
+    $req->bindValue(8, '0');
     $req->execute();
     // return 'Votre commentaire a été bien envoyé !';
 }
@@ -41,7 +84,7 @@ function addData(int $pageId, string $comment, string $img) {
 function addUser(string $username, string $email, string $password) {
     $db = dbConnect();
 
-    $req = $db->prepare("INSERT INTO users(page_id, Username, Email, Password1, Comment, ConfirmationEmail, ConfirmedStatus) VALUES(?, ?, ?, ?, ?, ?, ?)");
+    $req = $db->prepare("INSERT INTO users(page_id, Username, Email, Password1, Comment, ConfirmationEmail, reset_token, ConfirmedStatus) VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
 
     $options = ['cost' => 12,];
     $hashpass = password_hash($password, PASSWORD_BCRYPT, $options);
@@ -55,12 +98,13 @@ function addUser(string $username, string $email, string $password) {
     $req->bindValue(4, $hashpass);
     $req->bindValue(5, '');
     $req->bindValue(6, $confirmtoken);
-    $req->bindValue(7, 0);
+    $req->bindValue(7, '');
+    $req->bindValue(8, 0);
 
     $req->execute();
 
     $id = $db->lastInsertId();
-    mail($email, "Confirmation de votre compte", "Afin de valider votre compte, merci de cliquer sur le lien \n\nhttp://besso-com.stackstaging.com/themejeux/index.php?action=confirm.php&id=$id&token=$confirmtoken");
+    mail($email, "Confirmation de votre compte", "Afin de valider votre compte, merci de cliquer sur le lien \n\nhttp://127.0.0.1/themejeux/themejeux/index.php?action=confirm.php&id=$id&token=$confirmtoken");
 
     // return 'Votre commentaire a été bien envoyé !';
 }
@@ -157,7 +201,7 @@ function sendVerificationEmail(string $id, string $email) {
     // mail($email, "Confirmation de votre compte", "Afin de valider votre compte, merci de cliquer sur le lien \n\nhttp://besso-com.stackstaging.com/php_project/index.php?action=confirm.php&id=$id&token=$confirmtoken");
     
     // $_SESSION['flash'] = 'aucun compte ne correspond a cette adresse ';
-    mail($email,"Réinitialisation de votre compte","afin de réinitialer votre mot de passe merci de cliquer sur ce lien\n\nhttp://besso-com.stackstaging.com/themejeux/index.php?action=forget.php&id=$id&token=$confirmtoken");
+    mail($email,"Réinitialisation de votre compte","afin de réinitialer votre mot de passe merci de cliquer sur ce lien\n\nhttp://127.0.0.1/themejeux/themejeux/index.php?action=forget.php&id=$id&token=$confirmtoken");
 }
 // 4
 function updateUserPassword(string $id, string $pass) {
@@ -172,11 +216,22 @@ function updateUserPassword(string $id, string $pass) {
     $req->execute();
 }
 
+//  Function for takes all the sub comments from the table subComments
+function takeSubComments(int $pageId): array {
+    $db = dbConnect();
+
+    $req = $db->prepare("SELECT comment_id, username, sub_comment, DATE_FORMAT(date_comment, '%d/%m/%Y à %H:%i') AS date_comment FROM subComments WHERE page_id=? ");
+    $req->bindValue(1, $pageId);
+    $req->execute();
+
+    return $req->fetchAll(PDO::FETCH_ASSOC);
+}
+
 //  Function for takes data from the table Comments
 function takeData(int $pageId): array {
     $db = dbConnect();
 
-    $req = $db->prepare("SELECT id, Username, Comment, ImageSrc, DATE_FORMAT(InscriptionDate, '%d/%m/%Y à %H:%i:%s') AS InscriptionDate FROM Comments WHERE page_id=? ORDER BY InscriptionDate DESC");
+    $req = $db->prepare("SELECT id, Username, Comment, ImageSrc, LikeNumber, HeartNumber, likeSelected, heartSelected, DATE_FORMAT(InscriptionDate, '%d/%m/%Y à %H:%i') AS InscriptionDate FROM Comments WHERE page_id=? ORDER BY InscriptionDate DESC");
     $req->bindValue(1, $pageId);
     $req->execute();
 
@@ -193,7 +248,7 @@ function dbConnect() {
     $servername = 'localhost';
     $dbname = 'theme_games';
     $user = 'root';
-    $password = 'toto';
+    $password = 'Ii135792468!';
     
     try{
         $db = new PDO("mysql:host=$servername;dbname=$dbname", $user, $password);
@@ -206,7 +261,15 @@ function dbConnect() {
 }
 
 
-
+function sendmaill(string $username){
+    $db = dbConnect();
+    
+    $req=$db->prepare("SELECT * FROM users WHERE Username= ? ");
+    $req->bindValue(1, $username);
+    $req->execute();
+    return $req->fetch(PDO::FETCH_ASSOC);
+    
+    }
 
 //  Function for adds data to the table $tableName
 // function addData(string $tableName) {
