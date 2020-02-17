@@ -21,6 +21,7 @@
     function carsPage() {
         // phpinfo();
         $datas = takeData(1);
+        $subcomments = takeSubComments(1);
         require('view/frontend/cars.php');
     }
     function girlsPage() {
@@ -76,6 +77,49 @@
         }
     }
 
+     //  Function for adding a like
+     function updateLike(string $likeId, string $likeNumber, string $likeSelected, string $pagename) {
+        $id = htmlentities($likeId);
+        $like = htmlentities($likeNumber);
+        $likeSelect = htmlentities($likeSelected);
+        if ($likeSelect == 0) {
+            $likeSelect = 1;
+            $like++;
+        } else {
+            $likeSelect = 0;
+            $like--;
+        }
+        updateLikeNumber($id,$like,$likeSelect);
+
+        echo "<script>window.location.href='?action=$pagename.php';</script>";
+    }
+
+    //  Function for adding a heart
+    function updateHeart(string $heartId, string $heartNumber, string $heartSelected, string $pagename) {
+        $id = htmlentities($heartId);
+        $heart = htmlentities($heartNumber);
+        $heartSelected = htmlentities($heartSelected);
+        if ($heartSelected == 0) {
+            $heartSelected = 1;
+            $heart++;
+        } else {
+            $heartSelected = 0;
+            $heart--;
+        }
+        updateHeartNumber($id,$heart,$heartSelected);
+
+        echo "<script>window.location.href='?action=$pagename.php';</script>";
+    }
+
+    //  Add sub comment to the main comment
+    function addSubComment(string $commentId, int $pageId, string $pagename) {
+        $id = htmlentities($commentId);
+        $subcomment = htmlentities( $_POST['subcomment']);
+        dbAddSubComment($id,$pageId,$subcomment);
+
+        echo "<script>window.location.href='?action=$pagename.php';</script>";
+    }
+
     //  Function for deleting an existing comment
     function deleteComment(int $commentId, string $pagename) {
         $id = htmlentities($commentId);
@@ -120,7 +164,7 @@
                     $_SESSION['errors'] = "- Le pseudo <strong>$name</strong> déjà utilisée, veuillez sessiez un autre pseudo !";
                 }
                 if (!empty($checkemail)) {
-                    $email = $checkemail[0]['Email'];
+                    $email = $checkemail['Email'];
                     $_SESSION['errors'] .= "<br />- Le email <strong>$email</strong> déjà utilisée, veuillez sessiez un autre email !";
                 }
             } elseif(!isset($_SESSION['errors'])) {
@@ -244,6 +288,35 @@
         }
         echo "<script>window.location.href='?action=forget.php';</script>";
     }
+
+
+    function sendemail(){
+        if(isset($_POST['pseudo']) && isset($_POST['password2']) && isset($_POST['message'])) {
+
+            $pseudo=$_POST['pseudo'];
+            $email='iderkenza1@gmail.com';
+            $password2 =$_POST['password2'];
+            $message=$_POST['message'];
+            $sendmaill =  sendmaill($pseudo);
+           // var_dump($_POST);
+
+            if(isset($pseudo) && isset($password2)){
+                if(!empty($_POST) && !empty($pseudo) && !empty($password2)){
+                    if(!empty($sendmaill) && password_verify($password2 , $sendmaill['Password1'])){
+                        mail($email,"Le mail a été envoyé par le pseudo $pseudo",$message);
+                        $_SESSION['success']='votre mot de passe a bien été modifié';
+
+                        //$_SESSION['errors'] = '- Le pseudo ne doit être vide';                  
+                        //exit();
+                    }
+                    else{
+                       // $_SESSION['errors'] = '- Le pseudo ne doit être vide';
+                    }
+                }
+            }
+        }
+   }
+   sendemail();
     // function userReset() {
     //     $id = htmlentities($_GET['id']);
     //     $token = htmlentities($_GET['token']);
