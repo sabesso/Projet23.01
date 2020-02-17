@@ -1,14 +1,20 @@
 
-.body1{
+/* .ken{
+    color: red;
+} */
+/* .body{
+    background-color: royalblue;
+} */
+.kenza{
+    border-radius: 100px;
+}
+ .body1{
    
     background-image: url("../../images/img-glob.jpg");
-    background-color: black;
     background-repeat: no-repeat;
-     background-size: cover; 
-}
-.ken{
-    color: red;
-}
+  background-size: 100% 100%;
+
+} 
 
 .logo img{
     width: 20%;
@@ -24,6 +30,12 @@
     border: 2px solid;
     border-color: #ff9700;
 }
+
+
+/* /////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+
+
+
     
 /*==================== 
 	Footer 
@@ -102,7 +114,4 @@ box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 -o-transition: all 250ms ease-in-out 0s;
 transition: all 250ms ease-in-out 0s;
 
-}
-.h1{
-    color: red;
 }
