@@ -11,9 +11,6 @@
     <?= var_dump($_POST); ?>
 </pre>
 
-<pre>
-    <?=$_SESSION ?>
-</pre>
     <div class="container">
 
         <!-- *------------------* success register *-----------------* -->

@@ -1,20 +1,80 @@
 <?php 
     $title = "Contact";
     require('header.php');
+  //  require_once ('model/database.php');
+  //require('footer.php');
 ?>
-<div class="container">
-    <form action="" method="POST">
-        <div class="form-group">
-            <label for="username">Nom d'utilisateur</label>
-            <input class="form-control " type="text" name="username" placeholder="Entrer votre pseudo" >
-           <label class="mt-5" for="message"> Votre Message</label><textarea class="form-control " name="message" rows="4" placeholder="Entrer votre message"></textarea>
-        </div>
-        <div class="form-group">
-        <button type="submit" class="btn btn-primary">Submit</button>
-          
-        </div>
-    </form>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign Up Form by Colorlib</title>
+ <!-- Font Icon -->
+ <link rel="stylesheet" href="colorlib-regform-7 (1)/colorlib-regform-7/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+<!-- Main css -->
+<link rel="stylesheet" href="colorlib-regform-7 (1)/colorlib-regform-7/css/style.css">
+</head>
+<body class="body1">
+
+    <div class="main pt-0">
+        <!-- Sing in  Form -->
+        <section class="sign-in">
+            <div class="container">
+                <div class="signin-content">
+                    <div class="signin-image">
+                        <figure><img src="colorlib-regform-7 (1)/colorlib-regform-7/images/send-email.jpg" alt="sing up image"></figure>
+                        <a href="#" class="signup-image-link">Envoyer un email</a>
+                    </div>
+
+                    <div class="signin-form">
+                        <h2 class="form-title">Nous contacter </h2>
+                        <form method="POST" class="register-form" id="login-form">
+                            <div class="form-group">
+                                <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="text" name="pseudo" id="your_name" placeholder="Votre Pseudo"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="password2" id="your_pass" placeholder="Mot de Passe"/>
+                            </div>
+                            <div class="form-group">
+                            <i class=" zmdi zmdi-email-open icone-email"></i><label for="message"></label>
+                                <textarea class="form-control " name="message" rows="4" placeholder="Entrer votre message"></textarea>
+                             </div>
+
+                            <div class="form-group form-button">
+                                <input type="submit" name="formsend1" id="signin" class="form-submit" value="Envoyer"/>
+                            </div>
+                        </form>
+                        <div class="social-login">
+                            <!-- <span class="social-label">Or login with</span> -->
+                            <ul class="socials">
+                                <li><a href="#"><i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
+                                <li><a href="#"><i class="display-flex-center zmdi zmdi-twitter"></i></a></li>
+                                <li><a href="#"><i class="display-flex-center zmdi zmdi-google"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- JS -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="js/main.js"></script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>
+<div>
+
+<?php 
+ require('footer.php'); ?> 
 </div>
 
+  
 
-<?php require('footer.php'); ?>
