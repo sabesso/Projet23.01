@@ -4,24 +4,17 @@
     require_once('model/database.php');
     $success = false;
 ?>
-<!-- <<pre>
-    <?= print_r($_GET); ?>
-</pre>
-<pre>
-    <?= print_r($_SESSION); ?>
-</pre> -->
-<!-- <pre>
-    <?= print_r($datas); ?>
-</pre> 
-<pre>
-    <?= print_r($subcomments); ?>
-</pre>  -->
 <!-- ------------------------ The contents of the page ------------------------- -->
 <body style="background-image: url(images/img-glob.jpg); background-repeat:no-repeat; background-attachment: fixed;">
     <div class="container bg-light">
         <div class="mt-5 w-100 h-100 pt-3">
-            <a href="https://www.jeuxjeuxjeux.fr/jeu/speed-racing-pro-2.html"><img class="img-fluid mx-auto d-block w-100" src="images/car.jpg" alt="jeuxVoiture"></a>
+            <a href="https://www.jeuxjeuxjeux.fr/jeu/speed-racing-pro-2.html" target="_blank"><img class="img-fluid mx-auto d-block w-100" src="images/car.jpg" alt="jeuxVoiture"></a>
+<!-- _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_ -->
+            <div class="card-img">
+                <h1 class="card-title text-center" style="text-shadow: 3px 2px lightgray"><a class="text-primzry text-decoration-none" href="https://www.jeuxjeuxjeux.fr/jeu/speed-racing-pro-2.html" target="_blank">Cliquez pour jouer</a></h1>
+            </div>
         </div>
+<!-- _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_ -->
         <div class=" mt-5" >
             <h4 class="mb-3 border-bottom mt-1">Speed Racing Pro 2 </h4> 
             <div class="mt-1">
@@ -77,7 +70,7 @@
                             <img class="ml-2" src="https://img.icons8.com/flat_round/20/000000/hearts.png"> <?= $data["HeartNumber"]; ?>
                         <?php endif ?>
                         <div class="border bg-secondary mt-2"></div>
-<!-- If the user have sign in, shows the buttons of like, comment and modifying -- -->
+<!-- If the user have signed in, shows the buttons of like, comment and modify --- -->
                         <?php if(empty($_GET["update"]) && isset($_SESSION["userInfo"])) : ?>
                             <div class="">
                                 <!-- Like icon -->

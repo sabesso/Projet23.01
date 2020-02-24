@@ -1,7 +1,7 @@
 
 <?php
     $title = "Se Connecter";
-    require('header.php');
+    require ('header.php');
 ?>
 
 <!DOCTYPE html>

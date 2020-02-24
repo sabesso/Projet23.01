@@ -4,17 +4,27 @@
     require_once('model/database.php');
     $success = false;
 ?>
-<pre>
-<?= var_dump($_GET); ?>
-</pre>
-<pre>
-    <?= var_dump($_POST); ?>
-</pre>
 
-    <div class="container">
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>RegistrationForm_v10 by Colorlib</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <!-- *------------------* success register *-----------------* -->
-        <?php if(isset($_SESSION['success'])) : ?>
+		<!-- LINEARICONS -->
+		<link rel="stylesheet" href="colorlib-regform-26/colorlib-regform-26/fonts/linearicons/style.css">
+		
+		<!-- STYLE CSS -->
+		<link rel="stylesheet" href="colorlib-regform-26/colorlib-regform-26/css/style.css">
+	</head>
+
+	<body>
+
+		<div class="wrapper">
+			<div class="inner">
+                <img src="colorlib-regform-26/colorlib-regform-26/images/mdpoublier.png" alt="" class="image-1">
+                <?php if(isset($_SESSION['success'])) : ?>
                 <h4 class="alert alert-success text-center w-100"><?= $_SESSION['success'] ?></h4>
         <!-- *------------------* show the errors *------------------* -->
         <?php else : ?>
@@ -26,27 +36,71 @@
                     $_SESSION['id'] = $_GET['id'];
                     $_SESSION['token'] = $_GET['token'];
                 ?>
-                <h1>Réinitialiser mon mot de passe</h1>
-                <form action="?action=forget.php" method="POST">
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Mot de passe </label>
-                        <input type="password" class="form-control" name="password1" placeholder="Password"  required>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Confirmation du mot de passe</label>
-                        <input type="password" class="form-control" name="password2" placeholder="Password"  required>
-                    </div>
-                    <button type="submit" class="btn btn-primary" name="resetpass">Réinitialiser votre mot de passe</button>
+				<form action="?action=forget.php" method="POST">
+					<h3>Mot de passe oublié</h3>
+					<!-- <div class="form-holder">
+						<span class="lnr lnr-user"></span>
+						<input type="text" class="form-control" placeholder="Username">
+					</div> -->
+					<!-- <div class="form-holder">
+						<span class="lnr lnr-phone-handset"></span>
+						<input type="text" class="form-control" placeholder="Phone Number">
+					</div> -->
+					<!-- <div class="form-holder">
+						<span class="lnr lnr-envelope"></span>
+						<input type="text" class="form-control" placeholder="Mail">
+					</div> -->
+					<div class="form-holder">
+						<span class="lnr lnr-lock"></span>
+						<input type="password" class="form-control" placeholder="Password " name="password1" placeholder="Password"  required>
+					</div>
+					<div class="form-holder">
+						<span class="lnr lnr-lock"></span>
+						<input type="password" class="form-control" placeholder="Confirm Password" name="password2" placeholder="Password"  required>
+					</div>
+					<button type="submit" class="btn btn-primary" name="resetpass">
+						<span >Modifier</span>
+					</button>
                 </form>
-            <?php else : ?> 
-                <h1>Mot de passe oublié </h1>
+                <?php else : ?> 
+                <img src="colorlib-regform-26/colorlib-regform-26/images/image-2.png" alt="" class="image-2">
+                
                 <form action="?action=forget.php" method="POST">
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Email</label>
-                        <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Votre email" >
-                    </div>
-                    <button type="submit" name='resetmail' class="btn btn-primary">Envoyer</button>
+					<h3>Mot de passe oublié</h3>
+					<!-- <div class="form-holder">
+						<span class="lnr lnr-user"></span>
+						<input type="text" class="form-control" placeholder="Username">
+					</div> -->
+					<!-- <div class="form-holder">
+						<span class="lnr lnr-phone-handset"></span>
+						<input type="text" class="form-control" placeholder="Phone Number">
+					</div> -->
+					<div class="form-holder">
+						<span class="lnr lnr-envelope"></span>
+						<input type="text" class="form-control" placeholder="Mail " name="email" aria-describedby="emailHelp" placeholder="Votre email">
+					</div>
+					
+					<button type="submit" name='resetmail' class="btn btn-primary">
+						<span >Envoyer</span>
+					</button>
                 </form>
-            <?php endif ?>
+                <?php endif ?>
         <?php endif ?>
-    </div>
+
+			</div>
+			
+		</div>
+		
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/main.js"></script>
+	</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>
+
+
+
+
+
+
+
+
+

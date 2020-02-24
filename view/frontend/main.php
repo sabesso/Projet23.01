@@ -4,15 +4,6 @@
     unset($_SESSION['userConnected']);
 ?>
 <!-- ---------------------------- Main Page "The silder" ------------------------------ -->
-<!-- <pre>
-    <?= var_dump($_GET); ?>
-</pre>
-<pre>
-    <?= var_dump($_POST); ?>
-</pre> -->
-<pre>
-    <?= print_r($_SESSION); ?>
-</pre>
 
 <body class="body1" style="background-image: url(images/img-glob.jpg); background-repeat:no-repeat; background-size:cover">
 

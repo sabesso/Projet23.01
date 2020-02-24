@@ -1,4 +1,11 @@
-<?php require_once('menu.php'); ?>
+<?php require_once('menu.php');
+
+if(session_status() == PHP_SESSION_NONE){
+    session_start();
+}
+
+?>
+        
 <!doctype html>
 <html lang="en">
     <head>
@@ -29,7 +36,7 @@
     <body class="position-relative">
         <!-- Navigation -->
         <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-            <a class="navbar-brand" href="#">Navbar</a>
+            <a class="navbar-brand" href="#"><img src="images/logo1.png" alt="" style="width: 40%"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarItems" aria-controls="navbarItems" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -45,24 +52,27 @@
 <!-- *----* if don't clicked inscription or don't connected *----------* -->
             <?php if(!isset($_SESSION['logup'])) : ?>   
                 <?php if(!isset($_SESSION['userInfo'])) : ?>
-                    <div collapse navbar-collapse>
-                        <form class="form-inline mt-2 mt-md-0" action="?action=<?= $_GET['action'] ?>" method="POST">
+                    <div collapse navbar-collapse> 
+                        <form class="form-inline mt-2 mt-md-0 p-0 m-0" action="?action=<?= $_GET['action'] ?>" method="POST">
 <!-- *----------------* if there are errors of the login *--------------* -->
                             <!-- <?php if (isset($_SESSION['loginerror'])) : ?>
                                 <p class="mr-1 my-auto" style="background-color: lightgray"> <?= $_SESSION['loginerror'] ?><a href="?action=forget.php">J'ai oublié mon mot de pass</a></p>
                             <?php endif ?> -->
-                            <input class="form-control-sm mr-sm-2" type="text" name="loginusername" placeholder="Pseudo" value="<?php if(!empty($_POST['loginusername'])) echo htmlentities($_POST['loginusername']) ?>">
-                            <input class="form-control-sm mr-sm-2" type="password" name="loginpassword" placeholder="Mot de passe" value="<?php if(!empty($_POST['loginpassword'])) echo htmlentities($_POST['loginpassword']) ?>">
+                            <!-- <input class="form-control-sm mr-sm-2" type="text" name="loginusername" placeholder="Pseudo" value="<?php if(!empty($_POST['loginusername'])) echo htmlentities($_POST['loginusername']) ?>"> -->
+                            <!-- <input class="form-control-sm mr-sm-2" type="password" name="loginpassword" placeholder="Mot de passe" value="<?php if(!empty($_POST['loginpassword'])) echo htmlentities($_POST['loginpassword']) ?>"> -->
                             <!-- <a href="?action=<?= $_GET['action'] ?>&login" class="btn btn-primary btn-sm mr-2">Se connecter</a> -->
-                            <button class="btn btn-primary btn-sm my-2 my-sm-0 mr-2" type="submit" name="login">Se connecter</button>
+                            <!-- <button class="btn btn-primary btn-sm my-2 my-sm-0 mr-2" type="submit" name="login">Se connecter</button> -->
+                            <a href="?action=seconnecter.php" class="btn btn-primary btn-sm mr-2">Se connecter</a>
+
                             <a href="?action=inscription.php&logup" class="btn btn-primary btn-sm mr-2">Inscrivez-vous</a>
                             <!-- <button class="btn btn-primary btn-sm my-2 my-sm-0 mr-2" name="logup" type="submit">Inscrivez-vous</button> -->
                         </form>
 <!-- *----------------------* else if connected *----------------------* -->
                 <?php elseif(isset($_SESSION['userInfo'])) : ?>
-                        <form class="form-inline mt-2 mt-md-0" action="?action=<?= $_GET['action'] ?>" method="POST">
+                        <form class="form-inline mt-2 mt-md-0 p-0" action="?action=<?= $_GET['action'] ?>" method="POST">
                             <p class="my-auto mr-3" style="color: white">Bienvenue <strong><?= $_SESSION['userInfo']['Username'] ?></strong></p>
                             <a href="?action=account.php" class="btn btn-outline-warning btn-sm mr-1">Mon Profil</a>
+                            
                             <button class="btn btn-outline-warning btn-sm" name="logout" type="submit">Se déconnecter</button>
                             <!-- <button class="btn btn-outline-warning btn-sm" name="logout" type="submit">Mon Profil</button> -->
                         </form>
@@ -72,12 +82,7 @@
          
         </nav>
 
-        <!-- *----------------* if there are errors of the login *--------------* -->
-        <!-- <div class="float-right"> -->
-            <?php if (isset($_SESSION['loginerror'])) : ?>
-                <div class="position-absolute bg-dark text-warning p-2"> <?= $_SESSION['loginerror'] ?><a href="?action=forget.php"> J'ai oublié mon mot de passe </a></div>
-            <?php endif ?>
-        <!-- </div> -->
+     
         
 
 
@@ -92,3 +97,13 @@
         <a class="dropdown-item" href='index.php?action=index.php&logout'>Se déconnecter</a>
     </div>
 </div> -->
+<?php
+if(isset($_SESSION['flash'])):
+    foreach($_SESSION['flash'] as $type => $message ) : ?>
+        <div class="alert alert-<?= $type; ?>">
+    <?= $message; ?>
+    </div>
+    <?php endforeach ; ?>
+    <?php unset($_SESSION['flash']);?>
+
+    <?php endif; ?>

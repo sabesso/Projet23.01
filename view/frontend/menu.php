@@ -18,6 +18,6 @@ HTML;
 function nav_menu(string $linkClass = ''): string {
     return nav_item('index.php','Accueil', $linkClass) . nav_item('cars.php','Voitures', $linkClass) . 
     nav_item('girls.php','Filles', $linkClass) . nav_item('motobike.php','Moto', $linkClass) . 
-    nav_item('jeu.php','Jouer', $linkClass) . nav_item('contact.php','Contact', $linkClass);
+    nav_item('jeu.php','Jouer', $linkClass) . nav_item('contact.php','Contact', $linkClass) ;
 }
 ?>

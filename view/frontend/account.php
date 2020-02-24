@@ -1,9 +1,5 @@
 <?php require('header.php'); ?>
 
-<pre>
-    <?php print_r($_SESSION); ?>
-</pre>
-
 <!-- --------------------------- shows the profil ---------------------------- -->
 <div class="container">
     <div class="row">
