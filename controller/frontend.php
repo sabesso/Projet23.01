@@ -26,10 +26,12 @@
     }
     function girlsPage() {
         $datas = takeData(2);
+        $subcomments = takeSubComments(2);
         require('view/frontend/girls.php');
     }
     function motoPage() {
         $datas = takeData(3);
+        $subcomments = takeSubComments(3);
         require('view/frontend/motobike.php');
     }
     function inscriptionPage() {
@@ -43,6 +45,9 @@
     }
     function forgetPage() {
         require('view/frontend/forget.php');
+    }
+    function seconnecter() {
+        require('view/frontend/seconnecter.php');
     }
 
     //  Function for adding a new comment
@@ -139,7 +144,7 @@
         } else if (strlen($username) < 4) {
             $_SESSION['errors'] .= '- Le pseudo doit être min 4 charactère';
         } elseif(!preg_match('`^([a-zA-Z0-9-_]{2,36})$`', $username)){
-            $_SESSION['errors'] .= "- Votre pseudo n'est pas valide (caractere non autorisé)"; 
+            $_SESSION['errors'] = "- Votre pseudo n'est pas valide (caractere non autorisé)"; 
         }
         
         if (empty($email)) {
@@ -150,9 +155,11 @@
 
         if (!isset($_SESSION['errors'])) {
             if(empty($password) || $password != $password1 ){
-                $_SESSION['errors'] .= "<br />- Entrez un mot de passe valide";
+
+                $_SESSION['errors'] = "<br />- Entrez un mot de passe valide";
+                
             }
-        }
+       }
 
         if (!isset($_SESSION['errors'])) {
             $checkname = checkUserName($username);
@@ -169,36 +176,52 @@
                 }
             } elseif(!isset($_SESSION['errors'])) {
                 addUser($username, $email, $password);
-                $_SESSION['confirm'] = "Un email vous a été envoyé, afin de valider votre compte veuillez cliquer sur le lien dans le mail !";
-                // echo "<script>window.location.href='?action=index.php';</script>";
+                $_SESSION['flash']['success']= "Un e-mail vous a été envoyé à l'adresse mail que vous avez renseigné ";
+                header ('Location:?action=seconnecter.php');
+                exit();
+
             }
         }
         $_SESSION['logup'] = 'logup';
     }
     
     //  Confirm the login
+    
     function confirmLogin() {
         $username = htmlentities($_POST['loginusername']);
         $password = htmlentities($_POST['loginpassword']);
         
         $checklogin = checkUserLogin($username);
-        if (!empty($checklogin)) {
-            if (password_verify($password, $checklogin['Password1'])) {
-                if ($checklogin['ConfirmedStatus'] == 1) {
-                    $_SESSION['userInfo'] = $checklogin;
-                    $_SESSION['userConnected'] = $_SESSION['userInfo']['Username'];
-                    unset($_SESSION['loginerror']);
+        
+        if(!empty($_POST) && !empty( $username) && !empty($password)){
+
+            if (!empty($checklogin)) {
+                if (password_verify($password, $checklogin['Password1'])) {
+                    if ($checklogin['ConfirmedStatus'] == 1) {
+                        $_SESSION['userInfo'] = $checklogin;
+                        $_SESSION['userConnected'] = $_SESSION['userInfo']['Username'];
+                            
+                        unset($_SESSION['loginerror']);
+                        echo "<script>window.location.href='?action=account.php';</script>";
+                    } else {
+                        $_SESSION['loginerror'] = "Veuillez confirmer votre e-mail en cliquant sur le lien qui vous est envoyé!";
+                    }
                 } else {
-                    $_SESSION['loginerror'] = "Veuillez confirmer votre e-mail en cliquant sur le lien qui vous est envoyé!";
+                    $_SESSION['flash']['danger']= " Votre pseudo ou votre mot de passe semblent erronés ! ";
+
+                    // $_SESSION['loginerror'] = " Votre pseudo ou votre mot de passe semblent erronés !";
                 }
             } else {
-                $_SESSION['loginerror'] = " Votre pseudo ou votre mot de passe semblent erronés !";
+                // $_SESSION['loginerror'] = " Votre pseudo ou votre mot de passe semblent erronés !";
+                $_SESSION['flash']['danger']= " Votre pseudo ou votre mot de passe semblent erronés ! ";
+
             }
-        } else {
-            $_SESSION['loginerror'] = " Votre pseudo ou votre mot de passe semblent erronés !";
-        }
-        // $position = $_GET['login'];
-        // echo "<script>window.location.href='?action=$position';</script>";
+            // $position = $_GET['login'];
+            // echo "<script>window.location.href='?action=$position';</script>";
+        }else{
+            $_SESSION['flash']['danger']= " Veuillez remplir les champs ! ";
+
+        }   
     }
 
     function confirmUser() {
@@ -211,7 +234,12 @@
             $_SESSION['userInfo'] = $confirmstatus;
             $_SESSION['userConnected'] = $_SESSION['userInfo']['Username'];
         } else {
-            die ('pas ok');
+        //    die ("Le lien n'est plus valide");
+             
+            $_SESSION['flash']['danger']= 'ce token n est plus valide';
+            header ('Location:?action=seconnecter.php');
+           
+
         }
     }
 
@@ -262,7 +290,15 @@
         $verifyEmail = verifyUserEmail($email);
         if(!empty($verifyEmail)) {
             sendVerificationEmail($verifyEmail['id'],$verifyEmail['Email']);
-            $_SESSION['success'] = 'un mail de reinintialisation vous a bien été renvoyé ';
+           // echo "<script>window.location.href='?action=seconnecter.php';</script>";
+
+            // $_SESSION['success'] = 'un mail de reinintialisation vous a bien été renvoyé ';
+
+            $_SESSION['flash']['success']= "Un e-mail de reinintialisation vous a été envoyé à l'adresse mail que vous avez renseigné ";
+            header ('Location:?action=seconnecter.php');
+            exit();
+
+            
         } else {
             $_SESSION['danger'] = 'aucun compte ne correspond a cette adresse ';
         }
@@ -279,7 +315,11 @@
         if (!empty($confirmstatus) && ($token == $confirmstatus['reset_token'])) {
             if ($pass1 == $pass2) {
                 updateUserPassword($id, $pass1);
-                $_SESSION['success']='votre mot de passe a bien été modifié';
+
+                $_SESSION['flash']['success']= "votre mot de passe a bien été modifié: veuiller vous connecter avec le noveau mot de passe";
+                header ('Location:?action=seconnecter.php');
+             
+             
             } else {
                 $_SESSION['danger'] = "Entrez un mot de passe valide";
             }
@@ -304,14 +344,22 @@
                 if(!empty($_POST) && !empty($pseudo) && !empty($password2)){
                     if(!empty($sendmaill) && password_verify($password2 , $sendmaill['Password1'])){
                         mail($email,"Le mail a été envoyé par le pseudo $pseudo",$message);
-                        $_SESSION['success']='votre mot de passe a bien été modifié';
+                        
+                        //$_SESSION['success']='votre mot de passe a bien été modifié';
+                         $_SESSION['flash']['success']= " Votre message a bien été envoyé  ";
+                       // header ('Location:?action=seconnecter.php');
+                          
 
                         //$_SESSION['errors'] = '- Le pseudo ne doit être vide';                  
                         //exit();
                     }
                     else{
-                       // $_SESSION['errors'] = '- Le pseudo ne doit être vide';
+                        $_SESSION['flash']['danger']= " Votre mot de passe ou le pseudo est incorrect ! ";
+
                     }
+                }else{
+                    $_SESSION['flash']['danger']= " Veuillez remplir les champs ! ";
+
                 }
             }
         }
